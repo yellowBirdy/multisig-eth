@@ -49,6 +49,13 @@ contract Wallet {
     function getApprovers() public view returns (address[] memory) {
         return approvers;
     }
+    function getApprovals(address _approver) public view returns (bool[] memory) {
+        bool[] memory hisApprovals = new bool[](transfers.length);
+        for (uint i = 0; i < transfers.length; i++) {
+            hisApprovals[i] = approvals[_approver][i];
+        }
+        return hisApprovals;
+    }
     function getTransfers() public view returns (Transfer[] memory) {
         return transfers;
     }

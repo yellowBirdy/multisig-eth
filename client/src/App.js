@@ -10,6 +10,7 @@ function App() {
     const [quorum, setQuorum] = useState(undefined);
     const [loading, setLoading] = useState(false);
     const [transfers, setTransfers] = useState([]);
+    const [approvals, setApprovals] = useState([]);
     
     useEffect(()=>{
         const init = async ()=>{
@@ -20,6 +21,7 @@ function App() {
             let approvers = await wallet.methods.getApprovers().call();
             let quorum = await wallet.methods.quorum().call();
             let transfers = await wallet.methods.getTransfers().call();
+            let approvals = await wallet.methods.getApprovals(accounts[0]).call();
             setLoading(false);
             setWeb3(web3);
             setWallet(wallet);
@@ -27,6 +29,7 @@ function App() {
             setApprovers(approvers);
             setQuorum(quorum);
             setTransfers(transfers);
+            setApprovals(approvals);
         }
         init();
     }, [])
@@ -43,6 +46,8 @@ function App() {
             .send({from: accounts[0], gas: 159999})
             .then(r=>wallet.methods.getTransfers().call())
             .then(t=>setTransfers(t))
+            .then(()=>wallet.methods.getApprovals(accounts[0]).call())
+            .then(a=>setApprovals(a))
     };
 
     if (loading) return <h1>LOADING...</h1> 
@@ -55,7 +60,7 @@ function App() {
             <p>Quorum: {quorum}</p>
           </header>
           <Propose doPropose={doPropose} defaultTarget={accounts[9]} />
-          <Transfers transfers={transfers} onClick={doApprove} />
+          <Transfers transfers={transfers} onClick={doApprove} approved={approvals} />
         </div>
     );
 }
