@@ -1,3 +1,4 @@
+const path = require('path');
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -35,6 +36,8 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
+  contracts_build_directory: path.join(__dirname, "client/src/contracts"),
+
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -42,11 +45,10 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    // development: {
+    //development: {
     //  host: "127.0.0.1",     // Localhost (default: none)
-    //  port: 8545,            // Standard Ethereum port (default: none)
     //  network_id: "*",       // Any network (default: none)
-    // },
+    //},
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

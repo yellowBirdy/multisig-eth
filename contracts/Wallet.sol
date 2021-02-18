@@ -5,7 +5,6 @@ pragma experimental ABIEncoderV2;
 contract Wallet {
     address[] public approvers;
     uint public quorum;
-    
     struct Transfer {
         uint id;
         address payable to;
@@ -14,25 +13,22 @@ contract Wallet {
         bool sent;
     }
     Transfer[] public transfers;
-    //@dev trnasfer approvals track approver address to transfer
     mapping (address => mapping(uint => bool)) public approvals;
     
     constructor (address[] memory _approvers, uint _quorum) public {
         approvers = _approvers;
         quorum = _quorum;
     }
-    //@dev returns id of the transfer
-    function propose (address payable _to, uint _amount) external onlyApprover() returns(uint) {
-        uint id = transfers.length;
+    
+    function propose (address payable _to, uint _amount) external onlyApprover()  {
         transfers.push(Transfer(
-            id,
+            transfers.length,
             _to,
             1,
             _amount,
             false
         ));
-        approvals[msg.sender][id] = true;
-        return id;
+        approvals[msg.sender][transfers.length-1] = true;
     }
     //@dev returns if transfer sent
     function approve (uint _id) external onlyApprover() returns(bool) {
@@ -60,8 +56,8 @@ contract Wallet {
     
     modifier onlyApprover() {
         bool approver = false;
-        for (uint i; i < approvers.length; i++) {
-            if (msg.sender == approvers[i]) {
+        for (uint i=0; i < approvers.length; i++) {
+            if ( approvers[i] == msg.sender ) {
                 approver = true;
             }
         }
