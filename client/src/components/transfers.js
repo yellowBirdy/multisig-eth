@@ -1,7 +1,7 @@
 import React from "react";
 
 
- const Transfers = ({transfers}) => {
+ const Transfers = ({transfers, onClick}) => {
     return (
         <table>
         <thead>
@@ -16,7 +16,10 @@ import React from "react";
                     <td>{ts.id}</td>
                     <td>{ts.amount}</td>
                     <td>{ts.to}</td>
-                    <td>{ts.approvals}</td>
+                    <td>
+                        {ts.approvals}
+                        <button onClick={()=>onClick({id: ts.id})}>Approve</button>
+                    </td>
                     <td>{ts.sent ? "yes" : "no"}</td>
                 </tr>
             )}

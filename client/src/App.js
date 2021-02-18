@@ -36,6 +36,10 @@ function App() {
         wallet.methods.propose(to, amount)
             .send({from: accounts[0], gas: 159999})
     };
+    const doApprove = ({id}) => {
+        wallet.methods.approve(id)
+            .send({from: accounts[0], gas: 159999})
+    };
 
     if (loading) return <h1>LOADING...</h1> 
 
@@ -47,7 +51,7 @@ function App() {
             <p>Quorum: {quorum}</p>
           </header>
           <Propose doPropose={doPropose} defaultTarget={accounts[9]} />
-          <Transfers transfers={transfers} />
+          <Transfers transfers={transfers} onClick={doApprove} />
         </div>
     );
 }
