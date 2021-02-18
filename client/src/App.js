@@ -35,10 +35,14 @@ function App() {
     const doPropose = ({amount, to }) => {
         wallet.methods.propose(to, amount)
             .send({from: accounts[0], gas: 159999})
+            .then(r=>wallet.methods.getTransfers().call())
+            .then(t=>setTransfers(t))
     };
     const doApprove = ({id}) => {
         wallet.methods.approve(id)
             .send({from: accounts[0], gas: 159999})
+            .then(r=>wallet.methods.getTransfers().call())
+            .then(t=>setTransfers(t))
     };
 
     if (loading) return <h1>LOADING...</h1> 

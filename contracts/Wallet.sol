@@ -24,11 +24,11 @@ contract Wallet {
         transfers.push(Transfer(
             transfers.length,
             _to,
-            1,
+            0,//1,
             _amount,
             false
         ));
-        approvals[msg.sender][transfers.length-1] = true;
+//        approvals[msg.sender][transfers.length-1] = true;
     }
     //@dev returns if transfer sent
     function approve (uint _id) external onlyApprover() returns(bool) {
