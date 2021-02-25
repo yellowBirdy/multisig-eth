@@ -1,4 +1,5 @@
 const path = require('path');
+const Provider = require("@truffle/hdwallet-provider");
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -22,9 +23,8 @@ const path = require('path');
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
-
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".mnemonic").toString().trim();
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -39,6 +39,28 @@ module.exports = {
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),
 
   networks: {
+    ropsten: {
+        network_id: 3,    
+        provider: () => new Provider({
+            mnemonic: mnemonic/*: {
+                phrase: mnemonic
+            }*/,
+            addressIndex: 0,
+            numberOfAddresses: 4,
+            providerOrUrl: "https://ropsten.infura.io/v3/c3af3ba2f2d44258ba6cd12759957279"
+        }),
+    },
+    mainnet: {
+        network_id: 1,    
+        provider: () => new Provider({
+            mnemonic: mnemonic/*: {
+                phrase: mnemonic
+            }*/,
+            addressIndex: 0,
+            numberOfAddresses: 4,
+            providerOrUrl: "https://mainnet.infura.io/v3/c3af3ba2f2d44258ba6cd12759957279"
+        }),
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
